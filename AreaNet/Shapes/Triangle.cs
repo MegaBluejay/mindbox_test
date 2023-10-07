@@ -38,12 +38,14 @@ public class Triangle: IArea
     {
         get
         {
+            // I don't think checking for right triangles here would accomplish anything,
+            // since the check would be essentially as expensive as the computation it could save
             var sidesSq = _points.Zip(_points.Skip(1).Append(_points[0])).Select(ps =>
             {
                 var (p1, p2) = ps;
                 return (p2 - p1).NormSq;
             }).ToArray();
-            return Math.Sqrt(Math.Pow(sidesSq.Sum(), 2) - 2 * sidesSq.Select(s => Math.Pow(s, 2)).Sum()) / 4;
+            return Math.Sqrt(4 * sidesSq[0] * sidesSq[1] - Math.Pow(sidesSq[0] + sidesSq[1] - sidesSq[2], 2)) / 4;
         }
     }
 }
